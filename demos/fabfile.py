@@ -17,7 +17,8 @@ port = 22
 
 
 @task
-def print_uname(ctx):
+def uname(ctx):
+    # 远程连接方式, 接口执行操作方式
     con = Connection(host=host, user=user, port=port)
     result = con.run('uname -s')
     print result

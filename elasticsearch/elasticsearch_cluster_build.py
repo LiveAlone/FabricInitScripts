@@ -5,12 +5,7 @@ __author__ = 'yaoqijun'
 __mail__ = 'yaoqijunmail@foxmail.com'
 
 '''
-description: 
+description: service 集群group 构建es 集群方式
 '''
 
-from fabric import task
 
-
-@task
-def hello(ctx):
-    print("Hello world!")
