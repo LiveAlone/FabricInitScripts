@@ -17,7 +17,7 @@ port = 22
 
 
 @task
-def print_uname():
+def print_uname(ctx):
     con = Connection(host=host, user=user, port=port)
     result = con.run('uname -s')
     print result
