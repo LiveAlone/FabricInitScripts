@@ -5,7 +5,7 @@ __author__ = 'yaoqijun'
 __mail__ = 'yaoqijunmail@foxmail.com'
 
 '''
-description: 
+description: 执行命令 fab -H sns-es6-node07,sns-es6-node08,sns-es6-node09,sns-es6-node10,sns-es6-node11 appendBashProfile,touchVimrc
 '''
 
 from fabric import task
@@ -18,11 +18,8 @@ def appendBashProfile(ctx):
     :param ctx:
     :return:
     """
-    content = """
-    export ES_JAVA_OPTS="-Xms28g -Xmx28g"
-    export ES_HEAP_SIZE=28G
-    """
-    result = ctx.run("echo %s >> /home/app/.bash_profile" % content)
+    result = ctx.run("echo 'export ES_JAVA_OPTS=\"-Xms28g -Xmx28g\"\n"
+                     "export ES_HEAP_SIZE=28G' >> /home/app/.bash_profile ")
     print result
 
 
@@ -40,3 +37,8 @@ def printHostname(ctx):
 @task
 def whoami(ctx):
     print ctx.run('whoami')
+
+
+@task
+def touchVimrc(ctx):
+    print ctx.run("echo 'set nu\nset incsearch\nset hlsearch\nset background=dark\n' >> /home/app/.vimrc ")
