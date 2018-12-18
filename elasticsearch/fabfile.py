@@ -18,7 +18,12 @@ def appendBashProfile(ctx):
     :param ctx:
     :return:
     """
-    print 'bash profile content'
+    content = """
+    export ES_JAVA_OPTS="-Xms28g -Xmx28g"
+    export ES_HEAP_SIZE=28G
+    """
+    result = ctx.run("echo %s >> /home/app/.bash_profile" % content)
+    print result
 
 
 @task
