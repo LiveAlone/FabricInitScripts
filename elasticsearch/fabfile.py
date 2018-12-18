@@ -5,10 +5,16 @@ __author__ = 'yaoqijun'
 __mail__ = 'yaoqijunmail@foxmail.com'
 
 '''
-description: 执行命令 fab -H sns-es6-node07,sns-es6-node08,sns-es6-node09,sns-es6-node10,sns-es6-node11 appendBashProfile,touchVimrc
+description: 执行命令 fab -H sns-es6-node07,sns-es6-node08,sns-es6-node09,sns-es6-node10,sns-es6-node11 touchVimrc
+不同的task 命令
 '''
 
 from fabric import task
+
+
+@task
+def settingVmMaxMapCount(ctx):
+    ctx.sudo('sysctl -w vm.max_map_count=262144')
 
 
 @task
@@ -42,3 +48,8 @@ def whoami(ctx):
 @task
 def touchVimrc(ctx):
     print ctx.run("echo 'set nu\nset incsearch\nset hlsearch\nset background=dark\n' >> /home/app/.vimrc ")
+
+
+@task
+def validateApplimitsContent(ctx):
+    pass
