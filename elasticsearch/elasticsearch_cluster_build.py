@@ -15,7 +15,7 @@ deploy_hosts = ['sns-es6-node07', 'sns-es6-node08', 'sns-es6-node09', 'sns-es6-n
 
 if __name__ == '__main__':
     print 'start to config elasticsearch cluster'
-    ctx = SerialGroup(*DEPLOY_HOSTS)
+    ctx = SerialGroup(*deploy_hosts)
     ctx.run('mkdir -r %s' % file_load_path)
     ctx.run('cd %s' % file_load_path)
     ctx.run('wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.2.2.tar.gz'
