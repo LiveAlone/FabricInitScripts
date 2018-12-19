@@ -24,15 +24,15 @@ def load_es_package():
     ctx.run('cd %s && tar -zxvf elasticsearch-6.2.2.tar.gz' % file_load_path)
 
 
-def start_server(conn):
-    conn.run('source .bash_profile')
-    result = conn.run('source .bash_profile && echo $ES_JAVA_OPTS')
-    print result
+def start_server():
+    source_bash_profile = 'source .bash_profile && '
+    for (i, host) in enumerate(deploy_hosts):
+        conn = Connection(host)
+        # result = conn.run('source .bash_profile && echo $ES_JAVA_OPTS')
+        conn.run('echo "http.max_content_length: 500mb"')
 
 
 if __name__ == '__main__':
     print 'start to config elasticsearch cluster'
-    for host in deploy_hosts:
-        conn = Connection(host)
-        start_server(conn)
+    start_server()
     print 'end to config elasticsearch cluster'
