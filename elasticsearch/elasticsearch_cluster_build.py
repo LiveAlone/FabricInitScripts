@@ -22,7 +22,7 @@ if __name__ == '__main__':
     #         ' -e use_proxy=yes -e http_proxy=rec-httpproxy01:3128' % file_load_path)
 
     # 解压文件
-    ctx.run('cd %s && tar -zxvf elasticsearch-6.2.2.tar.gz .' % file_load_path)
+    ctx.run('cd %s && tar -zxvf elasticsearch-6.2.2.tar.gz' % file_load_path)
 
     # 追加内容
     # 启动服务方式
