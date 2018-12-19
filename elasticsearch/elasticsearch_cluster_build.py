@@ -25,9 +25,10 @@ def load_es_package():
 
 
 def start_server(conn):
+    conn.run('echo helloworld')
     result = conn.run('echo $ES_JAVA_OPTS')
     print result
-    
+
 
 if __name__ == '__main__':
     print 'start to config elasticsearch cluster'
