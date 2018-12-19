@@ -8,7 +8,6 @@ __mail__ = 'yaoqijunmail@foxmail.com'
 description: service 集群group 构建es 集群方式
 '''
 from fabric import SerialGroup
-from fabric import cd
 
 file_load_path = '/data/deploy/cellar'
 deploy_hosts = ['sns-es6-node07', 'sns-es6-node08', 'sns-es6-node09', 'sns-es6-node10', 'sns-es6-node11']
