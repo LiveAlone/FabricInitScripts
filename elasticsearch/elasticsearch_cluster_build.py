@@ -29,24 +29,24 @@ def start_server():
     for (i, host) in enumerate(deploy_hosts):
         conn = Connection(host)
         # result = conn.run('source .bash_profile && echo $ES_JAVA_OPTS')
-        # conn.run('echo "http.max_content_length: 500mb\n" '
-        #          '>> /data/deploy/cellar/elasticsearch-6.2.2/config/elasticsearch.yml ')
-        # conn.run('echo "cluster.name: %s\n" '
-        #          '>> /data/deploy/cellar/elasticsearch-6.2.2/config/elasticsearch.yml ' % es_cluster_name)
-        # conn.run('echo "node.name: %s%s\n" '
-        #          '>> /data/deploy/cellar/elasticsearch-6.2.2/config/elasticsearch.yml ' % (es_cluster_node_name, i + 1))
-        # conn.run('echo "transport.tcp.port: 9300\n" '
-        #          '>> /data/deploy/cellar/elasticsearch-6.2.2/config/elasticsearch.yml ')
-        # conn.run('echo "discovery.zen.ping.unicast.hosts: %s\n" '
-        #          '>> /data/deploy/cellar/elasticsearch-6.2.2/config/elasticsearch.yml '
-        #          % str(['%s:%s' % (deploy_host, 9300) for deploy_host in deploy_hosts]))
-        # conn.run('echo "discovery.zen.minimum_master_nodes: %s\n" '
-        #          '>> /data/deploy/cellar/elasticsearch-6.2.2/config/elasticsearch.yml '
-        #          % str(len(deploy_hosts) / 2 + 1))
-        # conn.run('echo "bootstrap.memory_lock: true\n" '
-        #          '>> /data/deploy/cellar/elasticsearch-6.2.2/config/elasticsearch.yml ')
-        # conn.run('echo "network.host: 0.0.0.0\n" '
-        #          '>> /data/deploy/cellar/elasticsearch-6.2.2/config/elasticsearch.yml ')
+        conn.run('echo "http.max_content_length: 500mb\n" '
+                 '>> /data/deploy/cellar/elasticsearch-6.2.2/config/elasticsearch.yml ')
+        conn.run('echo "cluster.name: %s\n" '
+                 '>> /data/deploy/cellar/elasticsearch-6.2.2/config/elasticsearch.yml ' % es_cluster_name)
+        conn.run('echo "node.name: %s%s\n" '
+                 '>> /data/deploy/cellar/elasticsearch-6.2.2/config/elasticsearch.yml ' % (es_cluster_node_name, i + 1))
+        conn.run('echo "transport.tcp.port: 9300\n" '
+                 '>> /data/deploy/cellar/elasticsearch-6.2.2/config/elasticsearch.yml ')
+        conn.run('echo "discovery.zen.ping.unicast.hosts: %s\n" '
+                 '>> /data/deploy/cellar/elasticsearch-6.2.2/config/elasticsearch.yml '
+                 % str(['%s:%s' % (deploy_host, 9300) for deploy_host in deploy_hosts]))
+        conn.run('echo "discovery.zen.minimum_master_nodes: %s\n" '
+                 '>> /data/deploy/cellar/elasticsearch-6.2.2/config/elasticsearch.yml '
+                 % str(len(deploy_hosts) / 2 + 1))
+        conn.run('echo "bootstrap.memory_lock: true\n" '
+                 '>> /data/deploy/cellar/elasticsearch-6.2.2/config/elasticsearch.yml ')
+        conn.run('echo "network.host: 0.0.0.0\n" '
+                 '>> /data/deploy/cellar/elasticsearch-6.2.2/config/elasticsearch.yml ')
 
         # start server
         conn.run('%s /data/deploy/cellar/elasticsearch-6.2.2/bin/elasticsearch -d' % source_bash_profile)
