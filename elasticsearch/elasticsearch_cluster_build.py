@@ -25,7 +25,7 @@ def load_es_package():
 
 
 def start_server(conn):
-    conn.run('echo helloworld')
+    conn.run('source .bash_profile')
     result = conn.run('echo $ES_JAVA_OPTS')
     print result
 
