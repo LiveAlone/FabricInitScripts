@@ -9,6 +9,7 @@ description: 构建Es 集群配置, 确认ssh auth 链接方式
 '''
 from fabric import SerialGroup
 from fabric import Connection
+import time
 
 # 需要部署的集群
 deploy_hosts = ['sns-es6-node43', 'sns-es6-node44', 'sns-es6-node45']
@@ -22,6 +23,8 @@ es_ik_file = 'elasticsearch-analysis-ik-6.2.2.zip'
 es_ik_unzip_dir = 'elasticsearch'
 es_cluster_name = 'sns-cluster'
 es_cluster_node_name = 'sns-cluster-node-'
+es_home = '%s/%s' % (cellar_path, es_untar_dir)
+es_config_yaml_file = '%s/%s' % (es_home, 'config/elasticsearch.yml')
 
 
 # 机器部署上下文环境
@@ -53,9 +56,6 @@ def file_scp():
 
 # 集群文件配置
 def cluster_config_update():
-    es_home = '%s/%s' % (cellar_path, es_untar_dir)
-    es_config_yaml_file = '%s/%s' % (es_home, 'config/elasticsearch.yml')
-
     for (i, host) in enumerate(deploy_hosts):
         conn = Connection(host)
         # result = conn.run('source .bash_profile && echo $ES_JAVA_OPTS')
@@ -70,26 +70,37 @@ def cluster_config_update():
         conn.run('echo "bootstrap.memory_lock: true\n" >> %s' % es_config_yaml_file)
         conn.run('echo "network.host: 0.0.0.0\n" >> %s' % es_config_yaml_file)
 
-        # start server
-        # conn.run('%s /data/deploy/cellar/elasticsearch-6.2.2/bin/elasticsearch -d' % source_bash_profile)
-
 
 # 启动集群服务
 def es_cluster_start():
-    source_bash_profile = 'source .bash_profile && '
-    pass
+    for host in deploy_hosts:
+        conn = Connection(host)
+        # start server
+        conn.run('source .bash_profile && %s/bin/elasticsearch -d' % es_home)
+    # 等待节点启动成功
+    time.sleep(60)
+    conn = Connection(deploy_hosts[0])
+    result = conn.run(" curl -XGET 'http://localhost:9200/_cluster/health?pretty=true'")
+    print result
 
 
 # 结束集群
 def es_cluster_stop():
-    pass
+    for host in deploy_hosts:
+        conn = Connection(host)
+        process_id = conn.run("jps | grep Elasticsearch | awk '{print $1}'").stdout.strip()
+        if process_id:
+            print 'to process kill host: %s, process_id: %s' % (host, process_id)
+            conn.run('kill %s' % process_id)
 
 
 if __name__ == '__main__':
     print 'start build elasticsearch cluster build'
     # config_env()
     # file_scp()
-    cluster_config_update()
+    # cluster_config_update()
+    # es_cluster_start()
+    es_cluster_stop()
     print 'finish build elasticsearch cluster build'
 
 
