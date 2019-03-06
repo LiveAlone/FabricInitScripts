@@ -12,7 +12,7 @@ from fabric import Connection
 import time
 
 # 需要部署的集群
-deploy_hosts = ['sns-es6-node17', 'sns-es6-node18', 'sns-es6-node19', 'sns-es6-node20', 'sns-es6-node21']
+deploy_hosts = ['sns-es6-node01', 'sns-es6-node02', 'sns-es6-node03', 'sns-es6-node04', 'sns-es6-node05']
 # 安装目录
 cellar_path = '/data/deploy/cellar'
 # 需要安装文件的目录 1. es-6.2.2 2. ik-6.2.2 分词
@@ -68,7 +68,9 @@ def cluster_config_update():
         conn.run('echo "discovery.zen.minimum_master_nodes: %s\n" >> %s'
                  % (str(len(deploy_hosts) / 2 + 1), es_config_yaml_file))
         conn.run('echo "bootstrap.memory_lock: true\n" >> %s' % es_config_yaml_file)
-        conn.run('echo "network.host: 0.0.0.0\n" >> %s' % es_config_yaml_file)
+        conn.run('echo "network.host: 0.0.0.0\n" >> %s\n' % es_config_yaml_file)
+        conn.run('echo "indices.requests.cache.size: 8%%\n" >> %s' % es_config_yaml_file)
+        conn.run('echo "indices.queries.cache.size: 40%%\n" >> %s' % es_config_yaml_file)
 
 
 # 启动集群服务
@@ -100,7 +102,7 @@ if __name__ == '__main__':
     file_scp()
     cluster_config_update()
     es_cluster_start()
-    es_cluster_stop()
+    # es_cluster_stop()
     print 'finish build elasticsearch cluster build'
 
 
