@@ -12,7 +12,7 @@ from fabric import Connection
 import time
 
 # 需要部署的集群
-deploy_hosts = ['sns-es6-node17']
+deploy_hosts = ['sns-es6-node19']
 # 安装目录
 cellar_path = '/data/deploy/cellar'
 # 需要安装文件的目录 1. es-6.2.2 2. ik-6.2.2 分词
@@ -77,7 +77,8 @@ def cluster_config_update():
 def es_cluster_start():
     for host in deploy_hosts:
         conn = Connection(host)
-        # start server
+        # start server 虚拟机重启时候， 重新设置一下
+        conn.run('sudo sysctl -w vm.max_map_count=262144')
         conn.run('source .bash_profile && %s/bin/elasticsearch -d' % es_home)
     # 等待节点启动成功
     time.sleep(60)
