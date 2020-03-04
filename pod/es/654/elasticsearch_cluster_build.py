@@ -12,7 +12,7 @@ from fabric import Connection
 import time
 
 # 需要部署的集群
-deploy_hosts = ['sns-es6-node22', 'sns-es6-node23', 'sns-es6-node24', 'sns-es6-node25', 'sns-es6-node26']
+deploy_hosts = ['sns-es6-node17']
 # 安装目录
 cellar_path = '/data/deploy/cellar'
 # 需要安装文件的目录 1. es-6.2.2 2. ik-6.2.2 分词
@@ -98,9 +98,9 @@ def es_cluster_stop():
 
 if __name__ == '__main__':
     print 'start build elasticsearch cluster build'
-    config_env()
-    file_scp()
-    cluster_config_update()
+    # config_env()
+    # file_scp()
+    # cluster_config_update()
     es_cluster_start()
     # es_cluster_stop()
     print 'finish build elasticsearch cluster build'
