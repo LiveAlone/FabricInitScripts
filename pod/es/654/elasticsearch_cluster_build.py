@@ -81,7 +81,7 @@ def es_cluster_start():
         conn.run('sudo sysctl -w vm.max_map_count=262144')
         conn.run('source .bash_profile && %s/bin/elasticsearch -d' % es_home)
     # 等待节点启动成功
-    time.sleep(60)
+    time.sleep(10)
     conn = Connection(deploy_hosts[0])
     result = conn.run(" curl -XGET 'http://localhost:9200/_cluster/health?pretty=true'")
     print result
