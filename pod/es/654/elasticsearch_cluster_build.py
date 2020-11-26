@@ -12,7 +12,7 @@ from fabric import Connection
 import time
 
 # 需要部署的集群
-deploy_hosts = ['sns-es6-node19']
+deploy_hosts = ['sns-es6-node17']
 # 安装目录
 cellar_path = '/data/deploy/cellar'
 # 需要安装文件的目录 1. es-6.2.2 2. ik-6.2.2 分词
